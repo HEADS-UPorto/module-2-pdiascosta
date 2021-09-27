@@ -1,0 +1,248 @@
+---
+title: "HEADS ACCELERATOR - Module 2"
+author:
+ - "Francisco Bischoff"
+date: "`r format(Sys.Date(), '- %d %b %Y')`"
+editor_options:
+  markdown:
+    mode: gfm
+output:
+  md_document:
+    variant: gfm
+  html_preview: true
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  fig.path = ".assets/figures/README-",
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  collapse = TRUE
+)
+```
+
+<img src=".assets/figures/logo.png" align="right" style="float:right;"/>
+
+<!-- start badges -->
+<img src="https://github.com/HEADS-UPorto/${{env.REPOSITORY_SLUG}}/workflows/Building%20Binder/badge.svg" alt="Building Binder"/>
+<a href="https://mybinder.org/v2/gh/HEADS-UPorto/Rstudio_Env/main?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252FHEADS-UPorto%252F${{env.REPOSITORY_SLUG}}%26targetPath%3Dheads%26urlpath%3Drstudio%252F%26branch%3Dmaster"><img src="https://mybinder.org/badge_logo.svg" alt="Launch Binder"/></a>
+
+<img src="https://github.com/HEADS-UPorto/${{env.REPOSITORY_SLUG}}/workflows/GitHub%20Classroom%20Workflow/badge.svg?branch=master&event=push" alt="GitHub Classroom Workflow"/>
+
+<!-- end badges -->
+
+## Syllabus
+
+In this module you will be introduced to Rstudio and Github.
+This module will cover:
+
+-   The basic data types and its usages;
+-   How to declare variables;
+-   How to inspect variables' types;
+-   How to change and delete variables.
+
+## Lessons
+
+### Module 2.1: Basic Data Types
+
+Everything in **R** is an [Object](https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Objects)
+
+An object can store, besides its intrinsic value, attributes and even other objects.
+This also means that data types can be converted into another type, using the proper tools.
+
+The reason for this is that **R** is designed to store and manipulate **Data**.
+
+But let's keep it simple for now.
+Think of **Data** being stored in **variables**, and being manipulated by **functions**.
+
+You may remember this words from mathematics, when we have something like this:
+
+<center>
+
+$$ f(x) = x^2 \therefore f(3) = 9 $$
+
+</center>
+
+Which means we have a **function** that squares the value of a **variable**.
+
+#### **Variables in R**
+
+A variable must have an unique name that identifies it so you can use its value.
+There is however a set of names that cannot be used, since these names are internally used by **R** itself.
+You can find these names here: [Reserved words](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html)
+
+There are other restrictions about how to chose a variable name:
+
+-   Can have a combination of **letters**, **digits**, single **period** and single **underscore**
+-   Must start with a **letter** or a **period**
+-   If started with a **period**, it cannot be followed by a **digit**
+
+As in math, to assign a value to a variable, we use a proper symbol that represents this action.
+
+We use `<-` to assign a value to a variable, and this action is named **declaration** when the variable didn't exists before.
+
+Some may ask about the `=` sign.
+This is a long history that can be discussed later.
+In short, **only use the equals sign when you are assigning a value to a function parameter**.
+Anywhere else, use the `<-` operator.
+Try to be used to this "rule-of-thumb".
+
+Here are some examples of variable definition
+
+``` r
+my_number <- 4
+my_text <- "some text"
+
+# right to left assignment
+a <- 4
+# left to right assignment, this is not possible with "=" !!!
+a -> b
+```
+
+#### **Main Data Types**
+
+The **R language** has **five** main data types:
+
+-   Numeric, is the default computational data type for any decimal value, including irrational numbers;
+-   Integer, only accepts round numbers;
+-   Character, this type represent a string, that may be composed by one or more characters;
+-   Complex, its a special type that represents complex numbers with the **real** and **imaginary** parts;
+-   Logical, represents **TRUE** or **FALSE**, and it is not the same as **1** or **0** as in some languages.
+
+Below there are examples of each declaration:
+
+```{r main_types}
+# Numeric
+my_first_numeric <- 10
+my_second_numeric <- 5.0 # more explicit when using the period
+
+# Integer
+my_integer <- 10L # a number followed by 'L' (literal) is an Integer
+
+# Character
+my_string <- "the brown fox jumped over the lazy dog"
+
+# Complex
+my_complex <- 4.1+1.5i
+
+# Logical
+my_logical <- TRUE
+```
+
+#### **Inspecting objects**
+
+We can use the `class()` function to inspect what kind of **object** we have:
+
+```{r class_types, collapse=TRUE}
+class(my_first_numeric)
+class(my_second_numeric)
+class(my_integer)
+class(my_string)
+class(my_complex)
+class(my_logical)
+```
+
+And use `typeof()` to inspect what kind of **data** is stored in this object:
+
+```{r typeof_types, collapse=TRUE}
+typeof(my_first_numeric)
+typeof(my_second_numeric)
+typeof(my_integer)
+typeof(my_string)
+typeof(my_complex)
+typeof(my_logical)
+```
+
+```{r graph, echo=FALSE}
+# graph <- grViz("
+# graph data_types {
+#   # a 'graph' statement
+#   graph [
+#     overlap = false,
+#     fontsize = 12,
+#     fontname = Helvetica
+#     rankdir = TB
+#   ]
+#
+#   subgraph types {
+#     # several 'node' statements
+#     node [shape = rect, fontname = Helvetica, fontsize = 12, colorscheme=accent7
+#     style='rounded,radial']
+#     CHAR[label=Character, fillcolor = 1]
+#     CPLX[label=Complex, fillcolor = 2]
+#     INT[label=Integer, fillcolor = 3]
+#     LOGIC[label=Logical, fillcolor = 4]
+#   }
+#
+#   subgraph numeric {
+#     node [shape = rect, fontname = Helvetica, fontsize = 12, colorscheme=accent7
+#     style='rounded,radial']
+#     NUM[label=Numeric, fillcolor = 5]
+#     DEC[label=Decimal, fillcolor = 6]
+#     REAL[label=Real, fillcolor = 6]
+#   }
+#   # several 'edge' statements
+#   CHAR
+#   CPLX--NUM[color=none]
+#   INT--NUM[color=none]
+#   LOGIC
+#   NUM--{REAL DEC}[arrowhead = none]
+# }
+# ")
+#
+# output <- graph %>% export_svg %>% charToRaw %>% rsvg::rsvg_png(".assets/figures/README-graph.png")
+```
+
+------------------------------------------------------------------------
+
+### Module 2.2: **Listing and Deleting Variables**
+
+#### Listing
+
+We can list all variables that we have declared in our workspace with the function `ls()`.
+In RStudio you can see them in the Environment tab.
+
+```{r list, collapse=TRUE}
+ls() # returns all the existing variables alphabetically
+```
+
+#### Deleting
+
+Sometimes we need to clean our workspace.
+We can use the function `rm()` to remove permanently one or more objects.
+
+```{r remove, collapse=TRUE}
+ls() # returns all variables
+
+rm(my_complex)
+
+ls() # now we see that `my_complex` has been removed
+
+```
+
+Bear in mind that when you want to have a fresh environment, you need to **Restart R**. You can do this in RStudio using the menu `Session -> Restart R` or the shortcut `Ctrl+Shift+F10`.
+
+### Module 2.3: Write a simple R code
+
+Your second task is also straightforward:
+
+1.  Create, in the project folder, a new file named "assignment.R" (with upper-case .R)
+2.  Write a code that prints in the console the same output as presented below
+3.  Save the file and push it back to the repository for evaluation
+
+Output:
+
+``` r
+numeric
+double
+```
+
+Starting of code:
+
+``` r
+# Write your code here
+cat(" ")
+```
